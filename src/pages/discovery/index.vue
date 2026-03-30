@@ -394,7 +394,7 @@ onShow(async () => {
   position: absolute;
   top: var(--space-2);
   left: var(--space-2);
-  background: #84cc16;  /* 与 Web 端一致 - lime-400 */
+  background: var(--accent-color);  /* 使用CSS变量 */
   padding: 2px var(--space-2);
   border-radius: var(--radius-full);
 }
@@ -410,7 +410,7 @@ onShow(async () => {
   position: absolute;
   top: var(--space-2);
   right: var(--space-2);
-  background: #ec4899;
+  background: var(--genz-pink);  /* 使用CSS变量 */
   padding: 2px var(--space-2);
   border-radius: var(--radius-full);
 }

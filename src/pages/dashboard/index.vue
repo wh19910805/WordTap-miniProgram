@@ -29,7 +29,7 @@
         <view class="stats-row">
           <view class="stat-card streak">
             <view class="stat-icon fire">
-              <Icon name="fire" size="lg" color="#fbbf24" />
+              <Icon name="fire" size="lg" color="var(--warning-color)" />
             </view>
             <view class="stat-content">
               <text class="stat-value">{{ userStore.stats.streak || 0 }}</text>
@@ -39,7 +39,7 @@
           </view>
           <view class="stat-card total">
             <view class="stat-icon">
-              <Icon name="check" size="lg" color="#000000" />
+              <Icon name="check" size="lg" color="var(--text-primary)" />
             </view>
             <view class="stat-content">
               <text class="stat-value">{{ userStore.stats.total_check_in || 0 }}</text>
@@ -705,11 +705,13 @@ onMounted(async () => {
 }
 
 .stat-card.streak {
-  background: #6366f1; /* 与 Web 端一致 - var(--primary-color) */
+  background: linear-gradient(135deg, var(--primary-light), var(--primary-color)); /* Gen Z渐变效果 */
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); /* 添加阴影增强层次感 */
 }
 
 .stat-card.total {
-  background: #a3e635; /* 与 Web 端一致 - lime-400 */
+  background: linear-gradient(135deg, var(--accent-light), var(--accent-color)); /* Gen Z渐变效果 */
+  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.3); /* 添加阴影增强层次感 */
 }
 
 .stat-icon {
@@ -877,12 +879,13 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-light), var(--primary-color)); /* Gen Z渐变效果 */
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   color: #fff;
   font-size: 16px;
   font-weight: 600;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); /* 添加阴影 */
 }
 
 .checkin-btn.checked {

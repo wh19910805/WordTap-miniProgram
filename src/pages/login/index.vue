@@ -1,5 +1,5 @@
 <template>
-  <view class="login-page">
+  <view class="login-page" :style="pageThemeStyle">
     <view class="login-box">
       <view class="logo-area">
         <view class="logo">
@@ -45,11 +45,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, inject, reactive } from 'vue'
 import Icon from '@/components/icon.vue'
 import { useAuthStore } from '@/stores'
 
 const authStore = useAuthStore()
+
+// 获取全局主题状态
+const themeState = inject('themeState', reactive({ isDark: false, backgroundColor: '#f8fafc', color: '#0f172a' }))
+
+// 页面主题样式
+const pageThemeStyle = computed(() => ({
+  backgroundColor: themeState.backgroundColor,
+  color: themeState.color,
+  '--background-color': themeState['--background-color'],
+  '--surface-color': themeState['--surface-color'],
+  '--text-primary': themeState['--text-primary'],
+  '--text-secondary': themeState['--text-secondary'],
+  '--text-tertiary': themeState['--text-tertiary'],
+  '--border-color': themeState['--border-color'],
+  '--hover-color': themeState['--hover-color'],
+  '--primary-color': themeState['--primary-color'],
+  '--primary-light': themeState['--primary-light'],
+  '--accent-color': themeState['--accent-color'],
+  '--error-color': themeState['--error-color'],
+  '--success-color': themeState['--success-color'],
+  '--warning-color': themeState['--warning-color'],
+}))
 
 const username = ref('')
 const password = ref('')
@@ -115,7 +137,7 @@ function goToRegister() {
 .logo {
   width: 80px;
   height: 80px;
-  background: #6366f1;  /* 与 Web 端一致 - indigo-600 */
+  background: var(--primary-color);  /* 使用CSS变量 */
   border-radius: 24px;  /* 与 Web 端一致 - rounded-3xl */
   display: flex;
   align-items: center;
@@ -125,7 +147,7 @@ function goToRegister() {
 .title {
   font-size: 36px;
   font-weight: 700;
-  color: #6366f1;  /* 与 Web 端一致 - indigo-600 */
+  color: var(--primary-color);  /* 使用CSS变量 */
   display: block;
   text-align: center;
   margin-bottom: var(--space-8);
@@ -166,7 +188,7 @@ function goToRegister() {
 .btn-primary {
   width: 100%;
   height: 52px;
-  background: #6366f1;
+  background: var(--primary-color);  /* 使用CSS变量 */
   color: #fff;
   border-radius: var(--radius-lg);
   font-size: 16px;

@@ -119,7 +119,7 @@
               <switch 
                 :checked="settings.keypressSound"
                 @change="(e) => updateSetting('keypressSound', e.detail.value)"
-                color="#6366f1"
+                :color="themeState['--primary-color']"
               />
             </view>
             <view class="option-item">
@@ -161,7 +161,7 @@
             <switch 
               :checked="settings.autoNextAfterCorrect"
               @change="(e) => updateSetting('autoNextAfterCorrect', e.detail.value)"
-              color="#6366f1"
+              :color="themeState['--primary-color']"
             />
           </view>
           <view class="divider"></view>
@@ -685,7 +685,7 @@ onShow(() => {
 }
 
 .theme-btn.active, .pronunciation-btn.active {
-  background: #6366f1;
+  background: var(--primary-color);
   color: #fff;
 }
 
@@ -703,7 +703,7 @@ onShow(() => {
 }
 
 .phonetic-btn.active {
-  background: #6366f1;
+  background: var(--primary-color);
 }
 
 .phonetic-btn.active .phonetic-text,
@@ -848,8 +848,8 @@ onShow(() => {
 }
 
 .speaking-mode-item.active {
-  border-color: #6366f1;
-  background: #6366f1;
+  border-color: var(--primary-color);
+  background: var(--primary-color);
   color: #fff;
 }
 
@@ -873,7 +873,7 @@ onShow(() => {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #6366f1;
+  background: var(--primary-color);
 }
 
 .speaking-mode-item.active .radio-checked {

@@ -406,6 +406,23 @@ button::after {
   animation: pulse 2s ease-in-out infinite;
 }
 
+/* 骨架屏加载动画 */
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--border-light) 25%, var(--border-color) 50%, var(--border-light) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
 /* 交互动效类 - 更细腻的点击反馈 */
 .press-scale {
   transition: transform 0.15s ease, opacity 0.15s ease;
@@ -414,6 +431,14 @@ button::after {
 .press-scale:active {
   transform: scale(0.96);
   opacity: 0.85;
+}
+
+/* 按钮悬停效果（桌面端用） */
+@media (hover: hover) {
+  .btn-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
 }
 
 /* 卡片悬停效果（桌面端用） */
@@ -558,8 +583,11 @@ page.dark {
   --text-disabled: #475569;
   
   /* 主色调背景 - 深色适配 */
+  --primary-color: #818cf8;  /* 深色模式使用更亮的主色 */
+  --primary-light: #a5b4fc;  /* 深色模式使用更亮的主色变体 */
   --primary-bg: rgba(99, 102, 241, 0.2);
   --accent-color: #a3e635;  /* 深色模式使用更亮的青柠绿 */
+  --accent-light: #d9f99d;  /* 深色模式使用更亮的强调色变体 */
   --accent-bg: rgba(163, 230, 53, 0.2);
   
   /* 状态色背景 - 深色适配 */
@@ -597,8 +625,11 @@ page.dark {
   --text-disabled: #475569;
   
   /* 主色调背景 - 深色适配 */
+  --primary-color: #818cf8;  /* 深色模式使用更亮的主色 */
+  --primary-light: #a5b4fc;  /* 深色模式使用更亮的主色变体 */
   --primary-bg: rgba(99, 102, 241, 0.2);
-  --accent-color: #a3e635;
+  --accent-color: #a3e635;  /* 深色模式使用更亮的青柠绿 */
+  --accent-light: #d9f99d;  /* 深色模式使用更亮的强调色变体 */
   --accent-bg: rgba(163, 230, 53, 0.2);
   
   /* 状态色背景 - 深色适配 */

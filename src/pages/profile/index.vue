@@ -298,7 +298,7 @@ onMounted(async () => {
   width: 64px;
   height: 64px;
   border-radius: 50%; /* 与 Web 端一致 - 圆形 */
-  background: #6366f1; /* 与 Web 端一致 - indigo-600 */
+  background: var(--primary-color); /* 使用CSS变量 */
   display: flex;
   align-items: center;
   justify-content: center;

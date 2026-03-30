@@ -1,62 +1,11 @@
 /* WordTap 微信小程序全局样式 - 与 Web 端一致 */
 
-/* 基础变量 - Gen Z Flat Design 高饱和度配色 */
-:root {
-  /* 主色调 - 鲜艳靛蓝 (与 Web 端一致) */
-  --primary-color: #6366f1;
-  --primary-light: #818cf8;
-  --primary-dark: #4f46e5;
+/* 
+  注意：CSS变量已统一在App.vue中定义，包含完整的浅色和深色主题变量
+  此文件仅包含基础重置和通用组件样式，避免与App.vue中的变量定义冲突
+*/
 
-  /* 强调色 - 活力青柠绿 (与 Web 端一致) */
-  --accent-color: #84cc16;
-  --accent-light: #a3e635;
-  --accent-dark: #65a30d;
-
-  /* 背景色 - 清爽浅灰 (与 Web 端一致) */
-  --background-color: #f8fafc;
-  --surface-color: #ffffff;
-
-  /* 边框和悬停 - 柔和灰 (与 Web 端一致) */
-  --border-color: #e2e8f0;
-  --hover-color: #f1f5f9;
-
-  /* 状态色 - 高饱和度 (与 Web 端一致) */
-  --error-color: #f43f5e;
-  --success-color: #10b981;
-  --warning-color: #f59e0b;
-
-  /* 文本色 - 清晰对比 (与 Web 端一致) */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #94a3b8;
-
-  /* Gen Z 辅助色 */
-  --genz-pink: #ec4899;
-  --genz-cyan: #06b6d4;
-  --genz-purple: #8b5cf6;
-  --genz-orange: #f97316;
-
-  /* 简写别名 (兼容现有代码) */
-  --primary: var(--primary-color);
-  --success: var(--success-color);
-  --error: var(--error-color);
-  --bg-primary: var(--background-color);
-  --bg-surface: var(--surface-color);
-  --bg-subtle: var(--hover-color);
-  --text-primary: var(--text-primary);
-  --text-secondary: var(--text-secondary);
-  --text-tertiary: var(--text-tertiary);
-  --border: var(--border-color);
-
-  /* 圆角 (与 Web 端一致 - 16px) */
-  --radius-md: 16px;
-  --radius-sm: 12px;
-
-  /* 间距 */
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-}
+/* 通用卡片样式 - Gen Z Flat Design */
 
 /* 基础重置 */
 page {
