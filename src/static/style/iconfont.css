@@ -1,0 +1,74 @@
+@font-face {
+  font-family: "iconfont";
+  src: url('/static/fonts/iconfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  line-height: 1;
+}
+
+.icon-shouye:before {
+  content: "\e600";
+}
+
+.icon-faxian:before {
+  content: "\e601";
+}
+
+.icon-wode:before {
+  content: "\e602";
+}
+
+.icon-zhengque:before {
+  content: "\e603";
+}
+
+.icon-arrow-left-bold:before {
+  content: "\e604";
+}
+
+.icon-direction-right:before {
+  content: "\e605";
+}
+
+.icon-huo:before {
+  content: "\e606";
+}
+
+.icon-shengyin_shiti:before {
+  content: "\e607";
+}
+
+.icon-product:before {
+  content: "\e608";
+}
+
+.icon-shipinbofang:before {
+  content: "\e609";
+}
+
+.icon-zhongxinkaishi:before {
+  content: "\e60a";
+}
+
+.icon-tiaoguo:before {
+  content: "\e60b";
+}
+
+.icon-customer-service:before {
+  content: "\e60c";
+}
+
+.icon-statis:before {
+  content: "\e60d";
+}
+

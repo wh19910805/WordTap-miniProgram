@@ -1,0 +1,28 @@
+{
+  "name": "WordTap",
+  "appid": "__UNI__XXXXXX",
+  "description": "沉浸式英语听写应用",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "app-plus": {
+    "usingComponents": true
+  },
+  "mp-weixin": {
+    "appid": "wxXXXXXXXXXXXXXXXX",
+    "usingComponents": true,
+    "requiredBackgroundModes": ["audio"],
+    "permission": {
+      "scope.userLocation": {
+        "desc": "获取地理位置用于显示学习热力图"
+      }
+    },
+    "requiredPrivateInfos": ["getLocation"]
+  },
+  "quickapp": {},
+  "mp-qq": {},
+  "mp-baidu": {},
+  "mp-alipay": {},
+  "mp-toutiao": {},
+  "mp-263": {}
+}

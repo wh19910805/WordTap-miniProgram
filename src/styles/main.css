@@ -1,0 +1,141 @@
+/* WordTap 微信小程序全局样式 - 与 Web 端一致 */
+
+/* 基础变量 - Gen Z Flat Design 高饱和度配色 */
+:root {
+  /* 主色调 - 鲜艳靛蓝 (与 Web 端一致) */
+  --primary-color: #6366f1;
+  --primary-light: #818cf8;
+  --primary-dark: #4f46e5;
+
+  /* 强调色 - 活力青柠绿 (与 Web 端一致) */
+  --accent-color: #84cc16;
+  --accent-light: #a3e635;
+  --accent-dark: #65a30d;
+
+  /* 背景色 - 清爽浅灰 (与 Web 端一致) */
+  --background-color: #f8fafc;
+  --surface-color: #ffffff;
+
+  /* 边框和悬停 - 柔和灰 (与 Web 端一致) */
+  --border-color: #e2e8f0;
+  --hover-color: #f1f5f9;
+
+  /* 状态色 - 高饱和度 (与 Web 端一致) */
+  --error-color: #f43f5e;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+
+  /* 文本色 - 清晰对比 (与 Web 端一致) */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+
+  /* Gen Z 辅助色 */
+  --genz-pink: #ec4899;
+  --genz-cyan: #06b6d4;
+  --genz-purple: #8b5cf6;
+  --genz-orange: #f97316;
+
+  /* 简写别名 (兼容现有代码) */
+  --primary: var(--primary-color);
+  --success: var(--success-color);
+  --error: var(--error-color);
+  --bg-primary: var(--background-color);
+  --bg-surface: var(--surface-color);
+  --bg-subtle: var(--hover-color);
+  --text-primary: var(--text-primary);
+  --text-secondary: var(--text-secondary);
+  --text-tertiary: var(--text-tertiary);
+  --border: var(--border-color);
+
+  /* 圆角 (与 Web 端一致 - 16px) */
+  --radius-md: 16px;
+  --radius-sm: 12px;
+
+  /* 间距 */
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+}
+
+/* 基础重置 */
+page {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+view, text, button, input, textarea {
+  box-sizing: border-box;
+}
+
+/* 通用卡片样式 - Gen Z Flat Design */
+.card {
+  background-color: var(--surface-color);
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+/* 通用按钮样式 */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 12px;
+}
+
+.btn-secondary {
+  background-color: var(--surface-color);
+  border: 2px solid var(--border-color);
+  color: var(--primary-color);
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 12px;
+}
+
+/* 标签样式 */
+.tag {
+  background-color: var(--accent-color);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 8px;
+}
+
+/* 统计卡片 */
+.stat-card {
+  background-color: var(--surface-color);
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+/* 进度条 */
+.progress-bar {
+  background-color: var(--border-color);
+  border-radius: 8px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+}
+
+/* 课程卡片悬停效果 */
+.course-card-hover {
+  transition: all 0.2s ease;
+}
+
+.course-card-hover:active {
+  transform: translateY(-4px);
+  border-color: var(--primary-color);
+}

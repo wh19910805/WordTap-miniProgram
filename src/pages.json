@@ -1,0 +1,104 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^Icon$": "@/components/icon.vue",
+      "^icon$": "@/components/icon.vue",
+      "^CustomTabbar$": "@/components/tabbar.vue",
+      "^tabbar$": "@/components/tabbar.vue"
+    }
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#94a3b8",
+    "selectedColor": "#4f46e5",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/dashboard/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/discovery/index",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "pages": [
+    {
+      "path": "pages/dashboard/index",
+      "style": {
+        "navigationBarTitleText": "WordTap",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/discovery/index",
+      "style": {
+        "navigationBarTitleText": "发现课程",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/profile/index",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/course-detail/index",
+      "style": {
+        "navigationBarTitleText": "课程详情",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/chapter-list/index",
+      "style": {
+        "navigationBarTitleText": "课时列表",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/learning/index",
+      "style": {
+        "navigationBarTitleText": "学习",
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/settings/index",
+      "style": {
+        "navigationBarTitleText": "设置",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/test/index",
+      "style": {
+        "navigationBarTitleText": "测试",
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "WordTap",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f8fafc"
+  }
+}
