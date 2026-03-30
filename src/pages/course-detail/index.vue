@@ -379,7 +379,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
 }
 
 .action-btn {

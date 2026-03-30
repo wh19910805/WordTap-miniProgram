@@ -79,19 +79,19 @@
           </view>
         </view>
 
-        <!-- 打卡按钮 -->
+        <!-- 打卡/开始学习按钮 -->
         <view
           v-if="authStore.isAuthenticated"
           class="checkin-btn"
-          :class="{ checked: hasCheckedIn }"
-          @click="handleCheckIn"
+          :class="{ checked: hasCheckedIn, learning: hasStartedLearning && !hasCheckedIn }"
+          @click="handleCheckInOrContinue"
         >
-          <Icon name="check" size="lg" color="var(--accent-color)" />
-          <Icon name="search" size="lg" color="var(--text-tertiary)" />
-          <text>{{ hasCheckedIn ? "已打卡" : "立即打卡" }}</text>
+          <Icon v-if="hasCheckedIn" name="check" size="lg" color="#fff" />
+          <Icon v-else name="play" size="lg" color="#fff" />
+          <text>{{ checkInBtnText }}</text>
         </view>
         <view v-else class="checkin-btn login" @click="goToLogin">
-          <Icon name="info" size="lg" color="var(--text-secondary)" />
+          <Icon name="info" size="lg" color="var(--text-primary)" />
           <text>登录后开始打卡</text>
         </view>
       </view>
@@ -327,11 +327,12 @@
 import Icon from "@/components/icon.vue";
 import CustomTabbar from "@/components/tabbar.vue";
 import { ref, computed, onMounted, inject, reactive } from "vue";
-import { useAuthStore, useUserStore, useCourseStore } from "@/stores";
+import { useAuthStore, useUserStore, useCourseStore, useTabStore } from "@/stores";
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const courseStore = useCourseStore();
+const tabStore = useTabStore();
 
 // 获取全局主题状态
 const themeState = inject('themeState', reactive({ isDark: false, backgroundColor: '#f8fafc', color: '#0f172a' }))
@@ -356,7 +357,22 @@ const pageThemeStyle = computed(() => ({
 }))
 
 const statusBarHeight = ref(20);
-const hasCheckedIn = ref(false);
+// 今日是否已打卡 - 从weeklyActivity中计算（本周有学习记录即为打卡）
+const hasCheckedIn = computed(() => {
+  const today = userStore.weeklyActivity.find((day: any) => day.isToday);
+  return today?.checked || false;
+});
+// 是否有开始学习（有最近学习记录或本周有打卡记录）
+const hasStartedLearning = computed(() => {
+  return recentLessons.value.length > 0 || userStore.weeklyActivity.some((day: any) => day.checked);
+});
+// 打卡按钮文字
+const checkInBtnText = computed(() => {
+  if (!authStore.isAuthenticated) return "登录后开始打卡";
+  if (hasCheckedIn) return "已打卡";
+  if (hasStartedLearning) return "继续学习";
+  return "开始学习";
+});
 const wrongWordCount = ref(74);
 const newWordCount = ref(236);
 
@@ -487,11 +503,17 @@ function formatRelativeTime(timeStr: string) {
   return `${Math.floor(days / 7)} 周前`;
 }
 
-async function handleCheckIn() {
-  if (hasCheckedIn.value) return;
+async function handleCheckInOrContinue() {
+  // 如果今天已打卡且有学习记录，跳转到继续学习
+  if (hasStartedLearning && !hasCheckedIn) {
+    continueLearning();
+    return;
+  }
+  // 如果今天已打卡，无操作
+  if (hasCheckedIn) return;
+  // 否则执行打卡（开始学习）
   const result = await userStore.checkIn();
   if (result.success) {
-    hasCheckedIn.value = true;
     uni.showToast({ title: "打卡成功", icon: "success" });
   }
 }
@@ -515,6 +537,8 @@ function goToLesson(lesson: any) {
 }
 
 function goToDiscovery() {
+  // 先更新TabBar高亮状态，再跳转
+  tabStore.setCurrentIndex(1);  // 1 = 发现页
   uni.switchTab({ url: "/pages/discovery/index" });
 }
 
@@ -712,6 +736,7 @@ onMounted(async () => {
 .stat-card.total {
   background: linear-gradient(135deg, var(--accent-light), var(--accent-color)); /* Gen Z渐变效果 */
   box-shadow: 0 4px 12px rgba(132, 204, 22, 0.3); /* 添加阴影增强层次感 */
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
 }
 
 .stat-icon {
@@ -792,18 +817,34 @@ onMounted(async () => {
   justify-content: center;
   background: var(--hover-color);
   border-radius: var(--radius-xl);
-  height: 48px;
+  height: 56px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .day-item.checked {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark, #4f46e5) 100%);
   color: #fff;
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  transform: scale(1.05);
 }
 
 .day-item.today {
   background: var(--surface-color);
   border: 2px solid var(--primary-color);
   color: var(--primary-color);
+  font-weight: 600;
+}
+
+.day-item.today::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  width: 8px;
+  height: 8px;
+  background: var(--primary-color);
+  border-radius: 50%;
 }
 
 .day-checked {
@@ -813,18 +854,6 @@ onMounted(async () => {
 .day-checked svg {
   width: 20px;
   height: 20px;
-}
-
-.day-item.checked {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-  color: #fff;
-}
-
-.day-item.today {
-  background: var(--surface-color);
-  border-color: var(--primary-color);
-  color: var(--primary-color);
 }
 
 .day-checked {
@@ -889,12 +918,18 @@ onMounted(async () => {
 }
 
 .checkin-btn.checked {
-  background: var(--primary-color); /* 与 Web 端一致，保持主色调 */
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%); /* 绿色渐变表示已完成 */
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.checkin-btn.learning {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
 
 .checkin-btn.login {
   background: linear-gradient(135deg, var(--accent-light), var(--accent-color));
-  color: #fff;
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
 }
 
 .btn-icon {
@@ -991,7 +1026,7 @@ onMounted(async () => {
   top: -4px;
   right: -4px;
   background: var(--accent-color);
-  color: #fff;
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
   font-size: 10px;
   font-weight: 700;
   padding: 2px 6px;
@@ -1329,18 +1364,20 @@ onMounted(async () => {
 }
 
 .heatmap-cell {
-  height: 12px; /* 与 Web 端一致 - h-3 */
-  border-radius: 2px; /* 小方块 */
-  background: var(--border-color); /* 默认灰色 */
+  height: 12px;
+  border-radius: 3px;
+  background: var(--border-color);
 }
 
 .heatmap-cell.has-data {
-  background: var(--primary-color); /* 有数据时高亮 */
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark, #4f46e5) 100%);
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
 }
 
 .heatmap-cell.today {
-  background: var(--surface-color); /* 今日背景色 */
-  border: 2px solid var(--primary-color); /* 今日边框 */
+  background: var(--surface-color);
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
 .heatmap-cell.empty {
@@ -1354,12 +1391,14 @@ onMounted(async () => {
 }
 
 .heatmap-cell.has-data {
-  background: var(--primary-light);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
 }
 
 .heatmap-cell.today {
-  background: var(--surface-color);
-  border: 2px solid var(--primary-color); /* 与 Web 端一致 */
+  background: var(--surface-color) !important;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .heatmap-cell.empty {

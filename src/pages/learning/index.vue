@@ -1347,47 +1347,60 @@ onMounted(async () => {
       lessonTitle.value = lessonData.title || ''
       
       // 尝试多种可能的数据结构
-      let lines: string[] = []
+      let sentencesData: any[] = []
+      let isObjectArray = false // 标记是否是对象数组
       
-      // 方式1: content.lines
-      if (lessonData.content?.lines) {
-        lines = lessonData.content.lines
+      // 方式1: content.sentences (后端API返回的数据格式)
+      if (lessonData.content?.sentences) {
+        sentencesData = lessonData.content.sentences
+        // 检查是否是对象数组
+        isObjectArray = sentencesData.length > 0 && typeof sentencesData[0] === 'object'
       }
-      // 方式2: content.sentences
-      else if (lessonData.content?.sentences) {
-        lines = lessonData.content.sentences
-      }
-      // 方式3: 直接是 sentences
+      // 方式2: 直接是 sentences
       else if (lessonData.sentences) {
-        lines = lessonData.sentences
+        sentencesData = lessonData.sentences
+        isObjectArray = sentencesData.length > 0 && typeof sentencesData[0] === 'object'
       }
-      // 方式4: 直接是 lines
+      // 方式3: content.lines (字符串数组)
+      else if (lessonData.content?.lines) {
+        sentencesData = lessonData.content.lines
+      }
+      // 方式4: 直接是 lines (字符串数组)
       else if (lessonData.lines) {
-        lines = lessonData.lines
+        sentencesData = lessonData.lines
       }
       // 方式5: content 是字符串数组
       else if (Array.isArray(lessonData.content)) {
-        lines = lessonData.content
+        sentencesData = lessonData.content
       }
       
-      console.log('解析到的行数据:', lines)
+      console.log('解析到的句子数据:', sentencesData, '是否对象数组:', isObjectArray)
       
-      if (lines.length > 0) {
-        // 获取翻译数据
-        const translates = lessonData.content?.textTranslate?.split('\n') || []
-        
-        // 过滤空行并创建句子对象
-        const filteredLines = lines.filter((line: string) => line && line.trim() !== '')
-        
-        sentences.value = filteredLines.map((line: string, index: number) => ({
-          id: `${lessonId}_${index}`,
-          text: line.trim(),
-          translate: translates[index]?.trim() || '',  // 对应翻译
-          soundmark: ''
-        }))
+      if (sentencesData.length > 0) {
+        if (isObjectArray) {
+          // 对象数组格式：后端API返回 {chinese, english, soundmark}
+          sentences.value = sentencesData.map((item: any, index: number) => ({
+            id: `${lessonId}_${index}`,
+            text: item.english?.trim() || '',      // 英文作为题目
+            translate: item.chinese?.trim() || '', // 中文作为翻译
+            soundmark: item.soundmark?.trim() || '' // 音标
+          }))
+        } else {
+          // 字符串数组格式：直接使用字符串作为题目
+          const filteredLines = sentencesData.filter((line: string) => line && line.trim() !== '')
+          
+          // 获取翻译数据
+          const translates = lessonData.content?.textTranslate?.split('\n') || []
+          
+          sentences.value = filteredLines.map((line: string, index: number) => ({
+            id: `${lessonId}_${index}`,
+            text: line.trim(),
+            translate: translates[index]?.trim() || '',
+            soundmark: ''
+          }))
+        }
         
         console.log('处理后的句子列表:', sentences.value)
-        console.log('翻译数据:', translates)
       } else {
         sentences.value = []
       }
@@ -1647,7 +1660,7 @@ onUnmounted(() => {
   height: 48px;
   border-radius: var(--radius-lg);
   background: var(--accent-color);
-  color: #fff;
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
   display: flex;
   align-items: center;
   justify-content: center;

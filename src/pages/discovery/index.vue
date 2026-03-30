@@ -400,7 +400,7 @@ onShow(async () => {
 }
 
 .free-tag text {
-  color: #fff;
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
   font-size: 10px;
   font-weight: 700;
 }

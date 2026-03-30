@@ -482,7 +482,7 @@ button::after {
 
 .block-card-accent {
   background: linear-gradient(135deg, var(--accent-light), var(--accent-color));
-  color: #ffffff;
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
 }
 
 .block-card-subtle {

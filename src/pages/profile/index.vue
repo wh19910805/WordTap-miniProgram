@@ -166,10 +166,11 @@
 import Icon from "@/components/icon.vue";
 import CustomTabbar from "@/components/tabbar.vue";
 import { ref, computed, onMounted, inject, reactive } from "vue";
-import { useAuthStore, useUserStore } from "@/stores";
+import { useAuthStore, useUserStore, useTabStore } from "@/stores";
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
+const tabStore = useTabStore();
 
 // 获取全局主题状态
 const themeState = inject('themeState', reactive({ isDark: false, backgroundColor: '#f8fafc', color: '#0f172a' }))
@@ -210,6 +211,8 @@ function goToLogin() {
 }
 
 function goToMyCourses() {
+  // 先更新TabBar高亮状态，再跳转
+  tabStore.setCurrentIndex(1);  // 1 = 发现页
   uni.switchTab({ url: "/pages/discovery/index" });
 }
 
@@ -321,7 +324,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
 }
 
 .avatar-badge svg {
@@ -442,7 +445,7 @@ onMounted(async () => {
 
 .time-icon {
   background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
-  color: #fff;
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
 }
 
 .stat-value {

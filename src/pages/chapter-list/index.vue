@@ -274,8 +274,8 @@ onMounted(async () => {
 }
 
 .status-icon.completed {
-  background: linear-gradient(135deg, #84cc16, #22c55e);  /* 与 Web 端一致 - lime-400 to green-500 */
-  color: #fff;
+  background: linear-gradient(135deg, var(--accent-color), #22c55e);  /* 使用CSS变量 */
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
 }
 
 .lesson-number {
@@ -306,7 +306,7 @@ onMounted(async () => {
 
 .completed-badge {
   font-size: 10px;
-  color: #000;
+  color: var(--text-primary); /* 高亮背景上使用深色文字 */
   background: var(--accent-color);
   padding: 2px var(--space-2);
   border-radius: var(--radius-sm);

@@ -47,9 +47,10 @@
 <script setup lang="ts">
 import { ref, computed, inject, reactive } from 'vue'
 import Icon from '@/components/icon.vue'
-import { useAuthStore } from '@/stores'
+import { useAuthStore, useTabStore } from '@/stores'
 
 const authStore = useAuthStore()
+const tabStore = useTabStore()
 
 // 获取全局主题状态
 const themeState = inject('themeState', reactive({ isDark: false, backgroundColor: '#f8fafc', color: '#0f172a' }))
@@ -91,7 +92,9 @@ async function handleLogin() {
     if (result.success) {
       uni.showToast({ title: '登录成功', icon: 'success' })
       setTimeout(() => {
-        uni.switchTab({ url: '/pages/dashboard/index' })
+        // 先更新TabBar高亮状态，再跳转
+        tabStore.setCurrentIndex(2);  // 2 = 我的页面
+        uni.switchTab({ url: '/pages/profile/index' })
       }, 1000)
     } else {
       uni.showToast({ title: result.message || '登录失败', icon: 'none' })

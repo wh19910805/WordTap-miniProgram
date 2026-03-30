@@ -139,15 +139,12 @@ export const useUserStore = defineStore('user', () => {
   const today = new Date()
   const todayDayOfWeek = today.getDay() === 0 ? 6 : today.getDay() - 1
   
-  const weeklyActivity = ref<any[]>([
-    { checked: false, isToday: todayDayOfWeek === 0 },
-    { checked: false, isToday: todayDayOfWeek === 1 },
-    { checked: false, isToday: todayDayOfWeek === 2 },
-    { checked: false, isToday: todayDayOfWeek === 3 },
-    { checked: false, isToday: todayDayOfWeek === 4 },
-    { checked: false, isToday: todayDayOfWeek === 5 },
-    { checked: false, isToday: todayDayOfWeek === 6 }
-  ])
+  const weeklyActivity = ref<any[]>(
+    Array.from({ length: 7 }, (_, index) => ({
+      checked: false,
+      isToday: index === todayDayOfWeek
+    }))
+  )
   
   async function fetchStats() {
     try {
@@ -184,7 +181,7 @@ export const useUserStore = defineStore('user', () => {
       
       // 映射数据格式，与 Web 端 user.js 保持一致
       recentStudies.value = records.map((record: any) => ({
-        id: record.lesson_id,
+        id: record.id,  // 使用后端返回的id字段
         courseId: record.course_id,
         courseName: record.course_name || '未知课程',
         title: record.lesson_name || 'Lesson',
