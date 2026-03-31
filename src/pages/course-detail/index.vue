@@ -2,7 +2,7 @@
   <view class="course-detail-page" :style="pageThemeStyle">
     <!-- 返回按钮 -->
     <view class="back-btn" :style="{ paddingTop: statusBarHeight + 'px' }" @click="goBack">
-      <Icon name="arrow-left" size="medium" color="var(--primary-color)" />
+      <image src="/static/images/left.png" class="back-icon" mode="aspectFit" />
     </view>
 
     <scroll-view v-if="course" class="content-area fade-in" scroll-y>
@@ -273,11 +273,16 @@ onMounted(async () => {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.9);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 12px;
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .content-area {

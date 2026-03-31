@@ -3,7 +3,7 @@
     <view class="header" :style="{ paddingTop: statusBarHeight + 'px' }">
       <view class="header-content">
         <view class="back-btn" @click="goBack">
-          <text>‹</text>
+          <image src="/static/images/left.png" class="back-icon" mode="aspectFit" />
         </view>
         <view class="title">测试页面</view>
       </view>
@@ -133,5 +133,20 @@ onMounted(async () => {
 .course-item text, .lesson-item text {
   font-size: 14px;
   color: var(--text-primary);
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
 }
 </style>

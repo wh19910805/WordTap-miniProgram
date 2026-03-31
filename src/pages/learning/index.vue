@@ -4,7 +4,7 @@
     <view class="header" :style="{ paddingTop: statusBarHeight + 'px' }">
       <view class="header-content">
         <view class="back-btn" @click="goBack">
-          <Icon name="arrow-left" size="lg" color="var(--text-primary)" />
+          <image src="/static/images/left.png" class="back-icon" mode="aspectFit" />
         </view>
         <view class="progress">
           <text>{{ currentLessonIndex + 1 }} / {{ totalLessons }}</text>
@@ -102,20 +102,20 @@
         <!-- 左侧：重播、重新开始 -->
         <view class="left-buttons">
           <view class="btn-icon" @click="replayAudio" title="重播当前音频">
-            <Icon name="volume" size="lg" color="var(--text-secondary)" />
+            <image src="/static/images/learn-video-on.png" class="action-icon" mode="aspectFit" />
           </view>
           <view class="btn-icon primary" @click="handleRestart" title="重新学习本课">
-            <Icon name="refresh" size="lg" color="#fff" />
+            <image src="/static/images/refresh.png" class="action-icon" mode="aspectFit" />
           </view>
         </view>
 
         <!-- 右侧：跳过、提交 -->
         <view class="right-buttons">
           <view class="btn-icon" @click="handleSkip" title="跳过当前课时">
-            <Icon name="skip-forward" size="lg" color="var(--text-secondary)" />
+            <image src="/static/images/skip.png" class="action-icon" mode="aspectFit" />
           </view>
           <view class="btn-submit" @click="handleSubmit" title="提交完成学习">
-            <Icon name="check" size="lg" color="#fff" />
+            <image src="/static/images/learn-check.png" class="action-icon" mode="aspectFit" />
           </view>
         </view>
       </view>
@@ -1474,12 +1474,16 @@ onUnmounted(() => {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: var(--surface-color);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: var(--space-3);
-  color: var(--primary-color);
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .progress {
@@ -1640,10 +1644,10 @@ onUnmounted(() => {
 }
 
 .btn-icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: var(--radius-lg);
-  background: var(--background-color);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1651,19 +1655,29 @@ onUnmounted(() => {
 }
 
 .btn-icon.primary {
-  background: var(--primary-color);
-  color: #fff;
+  background: transparent;
+  color: var(--primary-color);
+}
+
+.action-icon {
+  width: 48px;
+  height: 48px;
 }
 
 .btn-submit {
   width: 48px;
   height: 48px;
   border-radius: var(--radius-lg);
-  background: var(--accent-color);
-  color: var(--text-primary); /* 高亮背景上使用深色文字 */
+  background: transparent;
+  color: var(--accent-color);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.btn-submit .action-icon {
+  width: 48px;
+  height: 48px;
 }
 
 /* 隐藏输入框 */

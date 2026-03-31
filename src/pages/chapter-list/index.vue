@@ -4,7 +4,7 @@
     <view class="header" :style="{ paddingTop: statusBarHeight + 'px' }">
       <view class="header-content">
         <view class="back-btn" @click="goBack">
-          <Icon name="arrow-left" size="medium" color="var(--text-primary)" />
+          <image src="/static/images/left.png" class="back-icon" mode="aspectFit" />
         </view>
         <view class="title-area">
           <text class="course-name">{{ course?.name || '课时列表' }}</text>
@@ -200,11 +200,16 @@ onMounted(async () => {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: var(--background-color);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: var(--space-3);
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .title-area {
