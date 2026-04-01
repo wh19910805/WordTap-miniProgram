@@ -279,7 +279,10 @@ onShow(async () => {
   position: sticky;
   top: 0;
   display: flex;
-  background: var(--surface-color);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
   z-index: var(--z-sticky);
 }
 

@@ -1652,6 +1652,11 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
+  transition: transform 0.15s ease;
+}
+
+.btn-icon:active {
+  transform: scale(0.92);
 }
 
 .btn-icon.primary {
@@ -1673,6 +1678,11 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.btn-submit:active {
+  transform: scale(0.92);
 }
 
 .btn-submit .action-icon {

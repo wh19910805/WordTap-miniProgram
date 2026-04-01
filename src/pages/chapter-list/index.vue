@@ -187,7 +187,7 @@ onMounted(async () => {
   top: 0;
   background: var(--surface-color);
   z-index: 10;
-  border-bottom: 2px solid var(--border-color);  /* 与 Web 端一致 */
+  border-bottom: 2px solid var(--border-color);
 }
 
 .header-content {

@@ -652,7 +652,11 @@ onMounted(async () => {
   padding: var(--space-4);
   margin-bottom: var(--space-3);
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.section-card:active {
+  transform: scale(0.97);
 }
 
 .section-header {
@@ -908,13 +912,18 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  background: linear-gradient(135deg, var(--primary-light), var(--primary-color)); /* Gen Z渐变效果 */
+  background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   color: #fff;
   font-size: 16px;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); /* 添加阴影 */
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transition: transform 0.15s ease;
+}
+
+.checkin-btn:active {
+  transform: scale(0.96);
 }
 
 .checkin-btn.checked {

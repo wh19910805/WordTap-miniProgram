@@ -70,8 +70,10 @@ function switchTab(tab: TabItem, index: number) {
   left: 0;
   right: 0;
   height: 100px;
-  background: var(--surface-color);
-  border-top: 2px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -90,13 +92,18 @@ function switchTab(tab: TabItem, index: number) {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   padding: 8px 0;
+  transition: transform 0.15s ease;
+}
+
+.tabbar-item:active {
+  transform: scale(0.92);
 }
 
 .tabbar-text {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--text-tertiary);
-  margin-top: 4px;
+  margin-top: 2px;
   transition: color 0.2s ease;
 }
 
@@ -105,8 +112,8 @@ function switchTab(tab: TabItem, index: number) {
 }
 
 .tabbar-icon {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   margin-bottom: 2px;
   transition: transform 0.2s ease;
 }

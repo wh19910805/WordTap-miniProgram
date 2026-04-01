@@ -593,8 +593,10 @@ onShow(() => {
   flex-shrink: 0;
   position: sticky;
   top: 0;
-  background: var(--surface-color);
-  border-bottom: 2px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
   z-index: 10;
 }
 
