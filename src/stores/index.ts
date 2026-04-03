@@ -149,7 +149,9 @@ export const useUserStore = defineStore('user', () => {
   async function fetchStats() {
     try {
       const data = await request('/users/stats', 'GET')
+      console.log('[stores] fetchStats 返回数据:', JSON.stringify(data, null, 2))
       stats.value = { ...stats.value, ...data }
+      console.log('[stores] stats 更新后:', JSON.stringify(stats.value, null, 2))
       if (data.weekly_activity) {
         // 保留 isToday 属性，只更新 checked 状态
         weeklyActivity.value = data.weekly_activity.map((day: any, index: number) => ({
@@ -165,7 +167,23 @@ export const useUserStore = defineStore('user', () => {
   async function fetchHeatmap(months = 6) {
     try {
       const data = await request(`/users/heatmap?months=${months}`, 'GET')
-      heatmapData.value = data
+      console.log('[stores] fetchHeatmap 原始数据:', data)
+      
+      // 后端返回格式: { data: [{ date: '2024-01-01', count: 5 }, ...] }
+      // 转换为前端期望的格式: { '2024-01-01': 5, ... }
+      const heatmapObj: Record<string, number> = {}
+      const heatmapArray = data.data || data.heatmap || data || []
+      
+      if (Array.isArray(heatmapArray)) {
+        heatmapArray.forEach((item: any) => {
+          if (item.date && item.count > 0) {
+            heatmapObj[item.date] = item.count
+          }
+        })
+      }
+      
+      heatmapData.value = heatmapObj
+      console.log('[stores] fetchHeatmap 转换后数据:', heatmapObj)
     } catch (e) {
       console.error('获取热力图失败', e)
     }

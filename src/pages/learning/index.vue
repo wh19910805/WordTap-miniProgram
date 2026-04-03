@@ -144,6 +144,35 @@ import Icon from '@/components/icon.vue'
 import { useLearningStore, useCourseStore, useAuthStore } from '@/stores'
 import { useSettingsStore } from '@/stores/settings'
 
+// API 请求封装
+const BASE_URL = 'http://localhost:8000/api'
+async function request(url: string, method: string, data?: any) {
+  const token = uni.getStorageSync('token')
+  const header: any = { 'Content-Type': 'application/json' }
+  if (token) {
+    header['Authorization'] = `Bearer ${token}`
+  }
+  return new Promise((resolve, reject) => {
+    uni.request({
+      url: BASE_URL + url,
+      method,
+      data,
+      header,
+      redirect: 'follow',
+      success: (res: any) => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          resolve(res.data)
+        } else {
+          reject(res.data || { message: '请求失败' })
+        }
+      },
+      fail: () => {
+        reject({ message: '网络错误' })
+      }
+    })
+  })
+}
+
 // Scroll-view 内部容器的引用
 let scrollViewRef: any = null
 
@@ -1301,6 +1330,9 @@ const handleScroll = (event: any) => {
 }
 
 onMounted(async () => {
+  // 记录学习开始时间
+  sessionStartTime.value = Date.now()
+  
   const systemInfo = uni.getSystemInfoSync()
   statusBarHeight.value = systemInfo.statusBarHeight || 20
 
@@ -1370,22 +1402,41 @@ onMounted(async () => {
         sentencesData = lessonData.lines
       }
       // 方式5: content 是字符串数组
-      else if (Array.isArray(lessonData.content)) {
+else if (Array.isArray(lessonData.content)) {
         sentencesData = lessonData.content
       }
+      // 方式6: content.words (单词列表格式，每个单词包含sentences)
+      else if (lessonData.content?.words && Array.isArray(lessonData.content.words)) {
+        const words = lessonData.content.words
+        const allSentences: any[] = []
+        words.forEach((word: any) => {
+          if (word.sentences && Array.isArray(word.sentences)) {
+            word.sentences.forEach((s: any) => {
+              allSentences.push({
+                c: s.c,
+                cn: s.cn,
+                word: word.word,
+                phonetic: word.phonetic0 || word.phonetic1 || ''
+              })
+            })
+          }
+        })
+        sentencesData = allSentences
+        isObjectArray = true
+        console.log('从 content.words 提取句子，共', allSentences.length, '条')
+      }
       
-      console.log('解析到的句子数据:', sentencesData, '是否对象数组:', isObjectArray)
+      console.log('解析到的句子数据:', sentencesData.length, '条，是否对象数组:', isObjectArray)
       
       if (sentencesData.length > 0) {
         if (isObjectArray) {
-          // 对象数组格式：后端API返回 {chinese, english, soundmark}
+          // 对象数组格式：兼容多种字段名
           sentences.value = sentencesData.map((item: any, index: number) => ({
             id: `${lessonId}_${index}`,
-            text: item.english?.trim() || '',      // 英文作为题目
-            translate: item.chinese?.trim() || '', // 中文作为翻译
-            soundmark: item.soundmark?.trim() || '' // 音标
-          }))
-        } else {
+            text: (item.c || item.english || item.text || '').trim(),
+            translate: (item.cn || item.chinese || item.translation || '').trim(),
+            soundmark: (item.phonetic || item.soundmark || '').trim()
+          }))        } else {
           // 字符串数组格式：直接使用字符串作为题目
           const filteredLines = sentencesData.filter((line: string) => line && line.trim() !== '')
           
@@ -1429,7 +1480,45 @@ onMounted(async () => {
   })
 })
 
-onUnmounted(() => {
+// 保存学习进度到后端
+async function saveLearningProgress() {
+  if (!authStore.isAuthenticated || !currentCourseId.value || !currentLessonId.value) {
+    return
+  }
+  
+  try {
+    // 计算本次学习时长（秒）
+    const studyTime = Math.floor((Date.now() - (sessionStartTime.value || Date.now())) / 1000)
+    
+    // 计算当前学习到的行数（基于已完成的句子数）
+    const completedSentences = Object.values(learningStore.sentenceProgress || {})
+      .filter((p: any) => p && p.completed).length
+    const currentLine = completedSentences > 0 ? completedSentences : 0
+    
+    // 检查是否所有句子都完成了
+    const totalSentences = sentences.value.length
+    const isCompleted = completedSentences >= totalSentences && totalSentences > 0
+    
+    await request('/courses/progress', 'POST', {
+      course_id: currentCourseId.value,
+      lesson_id: currentLessonId.value,
+      current_line: currentLine,
+      study_time: studyTime,
+      is_completed: isCompleted
+    })
+    
+    console.log('学习进度已保存:', { currentLine, studyTime, isCompleted })
+  } catch (e) {
+    console.error('保存学习进度失败:', e)
+  }
+}
+
+const sessionStartTime = ref<number>(0)
+
+onUnmounted(async () => {
+  // 先保存学习进度到后端
+  await saveLearningProgress()
+  
   // 销毁音频上下文
   destroyAudio()
   

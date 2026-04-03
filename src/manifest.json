@@ -11,18 +11,17 @@
   "mp-weixin": {
     "appid": "wxXXXXXXXXXXXXXXXX",
     "usingComponents": true,
-    "requiredBackgroundModes": ["audio"],
+    "requiredBackgroundModes": [
+      "audio"
+    ],
     "permission": {
       "scope.userLocation": {
         "desc": "获取地理位置用于显示学习热力图"
       }
     },
-    "requiredPrivateInfos": ["getLocation"],
-    "optimization": {
-      "subPackages": true
-    },
-    "lazyCodeLoading": true,
-    "componentFramework": "glass-easel"
+    "requiredPrivateInfos": [
+      "getLocation"
+    ]
   },
   "quickapp": {},
   "mp-qq": {},
