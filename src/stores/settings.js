@@ -229,19 +229,16 @@ export const useSettingsStore = defineStore("settings", () => {
     loading.value = true;
     error.value = null;
     try {
-      console.log("[settings.js] 开始从后端API加载用户设置");
       // 先从本地数据库加载设置，保留用户的本地设置
       await loadFromLocalDB();
 
       const response = await userApi.getSettings();
-      console.log("[settings.js] API查询完成，settings:", response);
 
       if (response) {
         // 只更新后端返回的设置，不覆盖本地已有但后端未返回的设置
         nestedToFlatten(response);
         applyTheme();
         await saveToLocalDB();
-        console.log("[settings.js] 用户设置加载完成");
       }
     } catch (err) {
       console.error("[settings.js] 从API加载用户设置失败:", err);
@@ -257,14 +254,11 @@ export const useSettingsStore = defineStore("settings", () => {
     loading.value = true;
     error.value = null;
     try {
-      console.log("[settings.js] 开始更新用户设置");
-
       applyTheme();
       await saveToLocalDB();
 
       const nestedSettings = flattenToNested();
       const response = await userApi.updateSettings(nestedSettings);
-      console.log("[settings.js] 更新设置API返回:", response);
 
       return response;
     } catch (err) {

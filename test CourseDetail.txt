@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="min-h-screen bg-[var(--background-color)]">
     <div v-if="course" :data-course-name="course.name" class="pb-20">
       <!-- 返回按钮 -->
@@ -442,3 +442,4 @@ onMounted(() => {
   router.replace(route.path);
 });
 </script>
+

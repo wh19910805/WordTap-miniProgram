@@ -40,6 +40,40 @@ def create_course(
     
     return new_course
 
+# 获取课程分类列表
+@router.get("/categories")
+def get_categories(
+    db: Annotated[Session, Depends(get_db)]
+):
+    # 从所有课程中提取唯一的分类
+    courses = db.query(Course).filter(Course.is_active == True).all()
+    categories = {}
+    
+    for course in courses:
+        if course.category:
+            if course.category not in categories:
+                categories[course.category] = {
+                    "id": course.category,
+                    "name": course.category,
+                    "count": 1
+                }
+            else:
+                categories[course.category]["count"] += 1
+    
+    # 如果没有分类，返回默认分类
+    if not categories:
+        return [
+            {"id": "all", "name": "全部", "count": len(courses)},
+            {"id": "official", "name": "官方课程", "count": 0},
+            {"id": "nce", "name": "新概念英语", "count": 0}
+        ]
+    
+    # 添加"全部"分类
+    result = [{"id": "all", "name": "全部", "count": len(courses)}]
+    result.extend(list(categories.values()))
+    
+    return result
+
 # 获取课程列表
 @router.get("/", response_model=List[CourseResponse])
 def get_courses(

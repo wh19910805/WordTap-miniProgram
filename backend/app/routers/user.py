@@ -99,6 +99,31 @@ async def get_user_stats(
         db.commit()
         db.refresh(user_stats)
     
+    # 计算本周打卡记录
+    weekly_activity = []
+    today = date.today()
+    # 获取本周周一
+    week_start = today - timedelta(days=today.weekday())
+    
+    # 获取本周所有学习日期
+    study_dates_set = set()
+    for record in progress_records:
+        if record.last_studied_at:
+            study_dates_set.add(record.last_studied_at.date())
+    
+    # 构建本周每天的打卡记录
+    for i in range(7):
+        day_date = week_start + timedelta(days=i)
+        is_today = (day_date == today)
+        checked = day_date in study_dates_set and day_date <= today
+        weekly_activity.append({
+            "checked": checked,
+            "isToday": is_today
+        })
+    
+    # 将weekly_activity添加到返回对象
+    user_stats.weekly_activity = weekly_activity
+    
     return user_stats
 
 # 更新用户统计数据
@@ -445,9 +470,39 @@ async def get_current_user_with_stats(
         db.refresh(user_stats)
     
     # 返回包含用户信息和统计数据的响应
+    # 手动转换为字典，避免 Pydantic 序列化问题
     return {
-        "user": user,
-        "stats": user_stats
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "nickname": user.nickname,
+            "avatar": user.avatar,
+            "language": user.language,
+            "timezone": user.timezone,
+            "is_active": user.is_active,
+            "is_verified": user.is_verified,
+            "created_at": user.created_at.isoformat() if user.created_at else None,
+            "last_login_at": user.last_login_at.isoformat() if user.last_login_at else None
+        },
+        "stats": {
+            "id": user_stats.id,
+            "user_id": user_stats.user_id,
+            "streak": user_stats.streak,
+            "total_check_in": user_stats.total_check_in,
+            "word_count": user_stats.word_count,
+            "study_time_today": user_stats.study_time_today,
+            "study_time_week": user_stats.study_time_week,
+            "study_time_month": user_stats.study_time_month,
+            "study_time_year": user_stats.study_time_year,
+            "study_time_total": user_stats.study_time_total,
+            "completed_lessons": user_stats.completed_lessons,
+            "correct_answers": user_stats.correct_answers,
+            "wrong_answers": user_stats.wrong_answers,
+            "accuracy": user_stats.accuracy,
+            "xp_points": user_stats.xp_points,
+            "level": user_stats.level
+        }
     }
 
 # 获取用户设置

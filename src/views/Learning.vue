@@ -877,7 +877,7 @@ const saveErrorWords = async (errorWords) => {
       });
     }
 
-    console.log(`成功保存 ${uniqueErrorWords.length} 个错误单词到错词表`);
+
   } catch (error) {
     console.error("保存错误单词失败:", error);
     throw error;

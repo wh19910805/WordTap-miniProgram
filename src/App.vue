@@ -36,14 +36,10 @@ import {
   replaceBrowserModals,
 } from "@/composables/useModal";
 
-console.log("[App.vue] 组件创建");
-
 onBeforeMount(() => {
-  console.log("[App.vue] onBeforeMount 执行");
 });
 
 onMounted(() => {
-  console.log("[App.vue] onMounted 执行");
   // 替换浏览器默认弹窗
   replaceBrowserModals();
 });

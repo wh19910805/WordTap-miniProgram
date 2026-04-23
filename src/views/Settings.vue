@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[var(--background-color)] pb-20">
     <!-- 顶部导航栏 -->
     <div
-      class="sticky top-0 z-10 bg-[var(--surface-color)] border-b border-[var(--border-color)]"
+      class="sticky top-0 z-10 bg-white/70 backdrop-blur-md border-b border-white/30"
     >
       <div class="flex items-center gap-4 px-4 py-3">
         <button

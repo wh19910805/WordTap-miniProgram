@@ -3,7 +3,7 @@
     <div class="page-container content-area">
       <!-- 用户信息卡片 -->
       <div class="card bg-[var(--surface-color)] border-[var(--border-color)] text-[var(--text-primary)] p-4">
-        <div class="flex items-center gap-3" @click="goToProfileDetail">
+        <div class="flex items-center gap-3 active:scale-95 transition-transform" @click="goToProfileDetail">
           <div
             class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center text-white text-2xl flex-shrink-0"
           >
@@ -75,7 +75,7 @@
           v-for="setting in settingsList"
           :key="setting.key"
           @click="goToSettings(setting.key)"
-          class="w-full p-4 flex items-center justify-between border-b border-[var(--border-color)] last:border-b-0 active:bg-[var(--hover-color)] transition-colors text-[var(--text-primary)]"
+          class="w-full p-4 flex items-center justify-between border-b border-[var(--border-color)] last:border-b-0 active:bg-[var(--hover-color)] active:scale-95 transition-all text-[var(--text-primary)]"
         >
           <div class="flex items-center gap-3">
             <div
@@ -131,11 +131,11 @@
         <button
           v-if="authStore.isAuthenticated"
           @click="handleLogout"
-          class="w-full btn-primary"
+          class="w-full btn-primary active:scale-95 transition-transform"
         >
           退出登录
         </button>
-        <button v-else @click="goToLogin" class="w-full btn-primary">登录/注册</button>
+        <button v-else @click="goToLogin" class="w-full btn-primary active:scale-95 transition-transform">登录/注册</button>
       </div>
     </div>
   </div>

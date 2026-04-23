@@ -230,7 +230,7 @@ async function refreshData() {
     courses.value = await db.courses.toArray()
     lessons.value = await db.lessons.toArray()
     
-    console.log('数据已刷新')
+
   } catch (error) {
     console.error('刷新数据失败:', error)
     alert('刷新数据失败: ' + error.message)

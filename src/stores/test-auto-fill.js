@@ -18,15 +18,12 @@ const testSentences = [
 
 // 智能人名填充函数
 function testAutoFill(sentence) {
-  console.log(`\n测试句子: ${sentence}`);
-  
   // 组合正则：匹配多种人名格式
   const nameRegex = /^((Mr\.|Mrs\.|Miss|Ms\.|Dr\.|Prof\.)\s?([A-Z][a-zA-Z]+)(?:'s)?)|([A-Z][a-zA-Z]+):/i;
   const match = sentence.match(nameRegex);
   
   if (match) {
     const matchedText = match[0];
-    console.log(`✅ 匹配到人名: ${matchedText}`);
     
     // 检查是否是常见的非人名大写单词
     const commonNonNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
@@ -34,14 +31,11 @@ function testAutoFill(sentence) {
                            'September', 'October', 'November', 'December', 'The', 'A', 'An'];
     
     if (!commonNonNames.includes(matchedText.replace(':', ''))) {
-      console.log(`✅ 确认为人名，准备自动填充: ${matchedText}`);
       return matchedText;
     } else {
-      console.log(`❌ 匹配到但不是人名: ${matchedText}`);
       return null;
     }
   } else {
-    console.log(`❌ 未匹配到人名`);
     return null;
   }
 }

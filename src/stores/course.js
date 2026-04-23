@@ -15,7 +15,7 @@ export const useCourseStore = defineStore("course", () => {
   async function loadCourses() {
     // 如果课程已经加载过，不再重复加载
     if (coursesLoaded.value) {
-      console.log("[course.js] 课程已经加载过，跳过重复加载");
+
       return;
     }
     try {
@@ -540,15 +540,15 @@ export const useCourseStore = defineStore("course", () => {
         const [lessonDetail, progressData] = await Promise.all([
           lessonApi.getLessonDetail(lessonId),
           progressApi.getCourseProgress(courseId).catch((error) => {
-            console.log("获取学习进度失败，将使用默认进度:", error);
+
             return [];
           }),
         ]);
 
         // 查找当前课时的进度
         lessonProgress = progressData.find((p) => p.lesson_id === lessonId);
-        console.log("获取到的学习进度:", lessonProgress);
-        console.log("获取到的课时详情:", lessonDetail);
+
+
 
         // 处理lessonDetail对象，确保它包含正确的数据结构
         if (!lessonDetail) {
@@ -580,12 +580,12 @@ export const useCourseStore = defineStore("course", () => {
             // 处理不同类型的content数据结构
             if (typeof lessonDetail.content === "string") {
               // 如果content是字符串，直接作为text
-              console.log(`检测到content为字符串格式`);
+
               text = lessonDetail.content;
               sentences = splitIntoSentences(text, translate);
             } else if (Array.isArray(lessonDetail.content.lines)) {
               // 后端返回的标准数据结构：content包含lines数组
-              console.log(`检测到content包含lines数组（后端标准格式）`);
+
               text = lessonDetail.content.lines.join("\n");
               // 检查是否有中文翻译字段
               if (lessonDetail.content.lineTranslates) {
@@ -601,7 +601,7 @@ export const useCourseStore = defineStore("course", () => {
               sentences = splitIntoSentences(text, translate);
             } else if (Array.isArray(lessonDetail.content.sentences)) {
               // content包含sentences数组
-              console.log(`检测到content包含sentences数组`);
+
               sentences = lessonDetail.content.sentences.map(
                 (sentence, index) => ({
                   id: `sentence-${index}`,
@@ -620,7 +620,7 @@ export const useCourseStore = defineStore("course", () => {
               translate = sentences.map((s) => s.translate).join("\n");
             } else if (Array.isArray(lessonDetail.content.words)) {
               // content包含words数组
-              console.log(`检测到content包含words数组`);
+
               sentences = lessonDetail.content.words.map((word, index) => ({
                 id: `sentence-${index}`,
                 text: word.text || word.word || "",
@@ -637,7 +637,7 @@ export const useCourseStore = defineStore("course", () => {
               translate = sentences.map((s) => s.translate).join("\n");
             } else if (typeof lessonDetail.content.text === "string") {
               // content包含text字段
-              console.log(`检测到content包含text字段`);
+
               text = lessonDetail.content.text || "";
               translate = lessonDetail.content.textTranslate || "";
               sentences = splitIntoSentences(
@@ -649,7 +649,7 @@ export const useCourseStore = defineStore("course", () => {
               nameList = lessonDetail.content.nameList || [];
             } else if (Array.isArray(lessonDetail.content)) {
               // content本身是数组
-              console.log(`检测到content本身是数组`);
+
               sentences = lessonDetail.content.map((item, index) => ({
                 id: `sentence-${index}`,
                 text:
@@ -729,10 +729,7 @@ export const useCourseStore = defineStore("course", () => {
           }
         }
 
-        console.log(
-          `成功从后端API获取课时 ${lessonId} 的详细数据，创建的lesson对象:`,
-          lesson,
-        );
+
       } catch (apiError) {
         console.error(`从后端API获取课时详情失败: ${apiError.message}`);
         // API调用失败，创建一个基本的lesson对象
@@ -916,7 +913,7 @@ export const useCourseStore = defineStore("course", () => {
           study_time: studyTime,
           is_completed: completed,
         });
-        console.log("成功更新学习进度到后端");
+
       } catch (apiError) {
         console.error("更新学习进度到后端失败:", apiError);
       }

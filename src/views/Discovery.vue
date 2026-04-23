@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[var(--background-color)] pb-20">
     <!-- 顶部 Tab 切换 -->
     <div
-      class="sticky top-0 z-10 bg-[var(--surface-color)] border-b border-[var(--border-color)]"
+      class="sticky top-0 z-10 bg-white/70 backdrop-blur-md border-b border-white/30"
     >
       <div class="flex">
         <button
@@ -38,7 +38,7 @@
               v-for="course in courseStore.myCourses"
               :key="course.id"
               :data-course-name="course.name"
-              class="bg-[var(--surface-color)] border-2 border-[var(--border-color)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 relative group hover:border-[var(--primary-color)]"
+              class="bg-[var(--surface-color)] border-2 border-[var(--border-color)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 relative group hover:border-[var(--primary-color)] active:scale-95"
             >
               <!-- 移除按钮 -->
               <button
@@ -165,7 +165,7 @@
             :key="course.id"
             :data-course-name="course.name"
             @click="goToDetail(course.id)"
-            class="bg-[var(--surface-color)] border-2 border-[var(--border-color)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer group hover:border-[var(--primary-color)]"
+            class="bg-[var(--surface-color)] border-2 border-[var(--border-color)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer group hover:border-[var(--primary-color)] active:scale-95"
           >
             <!-- 课程封面 -->
             <div class="relative w-full aspect-[4/3] overflow-hidden rounded-t-3xl">
@@ -590,10 +590,10 @@ async function handleRemoveCourse(courseId, courseName) {
 }
 
 onMounted(async () => {
-  console.log("[Discovery] onMounted 执行");
+
   try {
     await courseStore.loadCourses();
-    console.log("[Discovery] 课程加载完成，课程数量:", courseStore.courses.length);
+
   } catch (error) {
     console.error("[Discovery] 加载课程失败:", error);
   }

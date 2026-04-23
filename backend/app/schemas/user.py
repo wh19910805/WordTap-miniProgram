@@ -15,6 +15,11 @@ class UserStatsUpdate(BaseModel):
     wrong_answers: Optional[int] = Field(None, description="错误答案数")
     xp_points: Optional[int] = Field(None, description="经验值")
 
+# 本周打卡记录项
+class WeeklyActivityDay(BaseModel):
+    checked: bool
+    isToday: bool
+
 # 用户统计响应模型
 class UserStatsResponse(BaseModel):
     id: str
@@ -36,6 +41,7 @@ class UserStatsResponse(BaseModel):
     level: int
     created_at: datetime
     updated_at: datetime
+    weekly_activity: Optional[list[WeeklyActivityDay]] = None
     
     class Config:
         from_attributes = True

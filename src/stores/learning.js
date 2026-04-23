@@ -75,13 +75,7 @@ export const useLearningStore = defineStore("learning", () => {
   // 功能函数
   // 自动填充人名
   function autoFillNames(lessonData) {
-    console.log("[DEBUG] autoFillNames called:", {
-      defaultShowName: settingsStore.defaultShowName,
-      hasLessonData: !!lessonData,
-      hasNameList: !!lessonData?.nameList,
-      nameList: lessonData?.nameList,
-      hasSentences: !!lessonData?.sentences,
-    });
+
 
     // 如果默认不显示人名或没有句子数据，直接返回
     if (!settingsStore.defaultShowName || !lessonData?.sentences) {
@@ -124,12 +118,7 @@ export const useLearningStore = defineStore("learning", () => {
 
       // 如果匹配到人名，更新进度
       if (matchFound) {
-        console.log(
-          "[DEBUG] 智能匹配到人名:",
-          filledText,
-          "in sentence:",
-          sentenceText,
-        );
+
 
         // 初始化句子进度
         if (!sentenceProgress.value[sentenceIndex]) {
@@ -153,10 +142,7 @@ export const useLearningStore = defineStore("learning", () => {
         if (sentenceIndex === currentSentenceIndex.value) {
           inputText.value = filledText;
           currentCharIndex.value = charIndex;
-          console.log("[DEBUG] Updated current input state:", {
-            inputText: filledText,
-            charIndex,
-          });
+
         }
       }
     });
@@ -211,7 +197,7 @@ export const useLearningStore = defineStore("learning", () => {
       if (lessonData.sentences && startIndex >= lessonData.sentences.length) {
         startIndex = lessonData.sentences.length - 1;
       }
-      console.log(`使用保存的学习进度，从第 ${startIndex + 1} 行开始`);
+
     }
 
     // 初始化学习状态
@@ -302,7 +288,7 @@ export const useLearningStore = defineStore("learning", () => {
         courseStore.currentLesson?.id &&
         courseStore.currentLesson?.courseId
       ) {
-        console.log("自动保存学习进度...");
+
         // 获取当前句子的索引和字符索引
         const currentIndex = currentSentenceIndex.value;
         const currentProgress = sentenceProgress.value[currentIndex];
@@ -361,12 +347,7 @@ export const useLearningStore = defineStore("learning", () => {
 
     // 获取发音URL并更新音频源（直接使用完整文本，支持单词、句子、段落、文章）
     const pronunciationUrl = getPronunciationUrl(processedText);
-    console.log(
-      "[DEBUG] 播放音频 URL:",
-      pronunciationUrl,
-      "文本:",
-      processedText,
-    );
+
     updateSource(pronunciationUrl);
 
     isPlaying.value = true;
@@ -374,7 +355,7 @@ export const useLearningStore = defineStore("learning", () => {
     try {
       // 播放音频
       await play();
-      console.log("[DEBUG] 音频播放成功");
+
     } catch (error) {
       console.error("播放音频失败:", error, "URL:", pronunciationUrl);
     } finally {
@@ -974,7 +955,7 @@ export const useLearningStore = defineStore("learning", () => {
         });
       }
 
-      console.log(`成功添加 ${uniqueWrongWords.length} 个错词到错题本`);
+
     } catch (error) {
       console.error("添加错词到错题本失败:", error);
     }

@@ -39,7 +39,7 @@ export const testSmartNameFill = () => {
 
   // 智能人名匹配函数（直接从learning.js复制）
   const testAutoFillNames = (lessonData) => {
-    console.log("=== 开始测试智能人名填充 ===");
+
 
     // 遍历所有句子，自动填充句首的人名
     lessonData.sentences.forEach((sentence, sentenceIndex) => {
@@ -110,15 +110,13 @@ export const testSmartNameFill = () => {
 
       // 输出测试结果
       if (matchFound) {
-        console.log(
-          `✅ 匹配成功 | 原句: "${sentenceText}" | 匹配: "${filledText}" | 长度: ${charIndex}`,
-        );
+
       } else {
-        console.log(`❌ 未匹配到 | 原句: "${sentenceText}"`);
+
       }
     });
 
-    console.log("=== 测试结束 ===");
+
   };
 
   // 执行测试

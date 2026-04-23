@@ -22,7 +22,7 @@ db.version(2).stores({
   users: 'id, username, email, password, createdAt, lastLoginAt'
 }).upgrade(tx => {
   // 升级逻辑：如果需要迁移数据
-  console.log('数据库升级到版本2：添加用户表')
+
 })
 
 // 升级到版本3，添加 lastStudyTime 索引
@@ -35,7 +35,7 @@ db.version(3).stores({
   users: 'id, username, email, password, createdAt, lastLoginAt'
 }).upgrade(tx => {
   // 升级逻辑：如果需要迁移数据
-  console.log('数据库升级到版本3：添加 lastStudyTime 索引')
+
 })
 
 // 升级到版本4，添加课程缓存表
@@ -49,19 +49,19 @@ db.version(4).stores({
   courseCache: 'id, cachedAt, type, category'  // 使用课程ID作为主键
 }).upgrade(tx => {
   // 升级逻辑：如果需要迁移数据
-  console.log('数据库升级到版本4：添加课程缓存表')
+
 })
 
 // 打开数据库，确保初始化
 db.open().then(() => {
-  console.log('数据库已打开，版本:', db.verno)
+
 }).catch(err => {
   console.error('数据库打开失败:', err)
   // 如果是版本错误，尝试删除数据库重新创建
   if (err.name === 'VersionError') {
-    console.log('检测到版本冲突，尝试删除旧数据库...')
+
     Dexie.delete('WordTapDB').then(() => {
-      console.log('旧数据库已删除，请刷新页面')
+
       window.location.reload()
     })
   }

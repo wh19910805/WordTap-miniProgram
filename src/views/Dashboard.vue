@@ -230,7 +230,7 @@
             v-for="(lesson, index) in recentLessons"
             :key="index"
             @click="goToLesson(lesson)"
-            class="flex items-center gap-4 p-4 bg-[var(--surface-color)] rounded-2xl border border-[var(--border-color)] transition-all duration-200 cursor-pointer hover:border-[var(--primary-color)]"
+            class="flex items-center gap-4 p-4 bg-[var(--surface-color)] rounded-2xl border border-[var(--border-color)] transition-all duration-200 cursor-pointer hover:border-[var(--primary-color)] active:scale-95"
           >
             <div
               class="w-16 h-16 bg-[var(--primary-color)] rounded-2xl flex-shrink-0 overflow-hidden relative"
@@ -452,7 +452,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <!-- 错题本 -->
             <div
-              class="flex items-center gap-4 p-6 bg-indigo-50 rounded-2xl border border-indigo-100 transition-all duration-200 cursor-pointer hover:border-indigo-300"
+              class="flex items-center gap-4 p-6 bg-indigo-50 rounded-2xl border border-indigo-100 transition-all duration-200 cursor-pointer hover:border-indigo-300 active:scale-95"
             >
               <div
                 class="w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200"
@@ -498,7 +498,7 @@
 
             <!-- 生词本 -->
             <div
-              class="flex items-center gap-4 p-6 bg-lime-50 rounded-2xl border border-lime-100 transition-all duration-200 cursor-pointer hover:border-lime-300"
+              class="flex items-center gap-4 p-6 bg-lime-50 rounded-2xl border border-lime-100 transition-all duration-200 cursor-pointer hover:border-lime-300 active:scale-95"
             >
               <div
                 class="w-14 h-14 bg-lime-400 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200"
@@ -563,7 +563,7 @@
           <div class="flex items-center gap-2">
             <button
               @click="prevMonth"
-              class="p-2 hover:bg-slate-100 rounded-full transition-colors"
+              class="p-2 hover:bg-slate-100 rounded-full transition-colors active:scale-95"
             >
               <component
                 :is="ArrowLeftIcon"
@@ -575,7 +575,7 @@
             }}</span>
             <button
               @click="nextMonth"
-              class="p-2 hover:bg-slate-100 rounded-full transition-colors"
+              class="p-2 hover:bg-slate-100 rounded-full transition-colors active:scale-95"
             >
               <component
                 :is="ArrowRightIcon"
@@ -984,14 +984,14 @@ async function loadLatestProgress() {
     loadingProgress.value = true;
     const progress = await progressApi.getLatestProgress();
     latestProgress.value = progress;
-    console.log("最新学习进度:", progress);
+
   } catch (error) {
     // 如果是404错误（没有找到学习进度），这是正常情况（用户可能还没有开始学习）
     if (error.detail === "没有找到学习进度") {
-      console.log("用户还没有学习记录，这是正常情况");
+
       latestProgress.value = null;
     } else if (error.detail === "无效的认证凭据") {
-      console.log("用户未登录，跳过获取学习进度");
+
       latestProgress.value = null;
     } else {
       console.warn("获取最新学习进度失败:", error);
@@ -1050,15 +1050,15 @@ function nextMonth() {
 }
 
 onMounted(async () => {
-  console.log("[Dashboard] onMounted 执行");
-  try {
-    console.log("[Dashboard] 开始加载用户数据");
-    await userStore.loadUserData();
-    console.log("[Dashboard] 用户数据加载完成");
 
-    console.log("[Dashboard] 开始加载最新学习进度");
+  try {
+
+    await userStore.loadUserData();
+
+
+
     await loadLatestProgress();
-    console.log("[Dashboard] 最新学习进度加载完成");
+
   } catch (error) {
     console.error("[Dashboard] 初始化失败:", error);
     console.error("[Dashboard] 错误堆栈:", error.stack);

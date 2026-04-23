@@ -22,11 +22,11 @@ export const useUserStore = defineStore("user", () => {
 
   // 从后端API加载用户数据
   async function loadUserData() {
-    console.log("[user.js] loadUserData 开始执行");
+
     try {
-      console.log("[user.js] 开始从后端API加载用户统计");
+
       const stats = await userApi.getStats();
-      console.log("[user.js] API查询完成，stats:", stats);
+
       if (stats) {
         streak.value = stats.streak || 0;
         totalCheckIn.value = stats.total_check_in || 0;
@@ -40,11 +40,7 @@ export const useUserStore = defineStore("user", () => {
         };
         lastStudyDate.value = stats.last_study_date || null;
         completedLessons.value = stats.completed_lessons || 0;
-        console.log("[user.js] 用户数据加载完成:", {
-          streak: streak.value,
-          totalCheckIn: totalCheckIn.value,
-          wordCount: wordCount.value,
-        });
+
 
         // 同时保存到本地数据库作为备份
         await db.userStats.put({
@@ -63,25 +59,22 @@ export const useUserStore = defineStore("user", () => {
           completedLessons: stats.completed_lessons || 0,
         });
       } else {
-        console.log("[user.js] API返回没有用户统计数据");
+
       }
 
-      console.log("[user.js] 开始更新周活动");
+
       await updateWeeklyActivity();
-      console.log("[user.js] 周活动更新完成");
 
-      console.log("[user.js] 开始加载最近学习记录");
+
+
       await loadRecentLessons();
-      console.log(
-        "[user.js] 最近学习记录加载完成，数量:",
-        recentLessons.value.length,
-      );
 
-      console.log("[user.js] 开始加载学习热力图");
+
+
       await loadLearningHeatmap();
-      console.log("[user.js] 学习热力图加载完成");
 
-      console.log("[user.js] loadUserData 执行完成");
+
+
     } catch (error) {
       console.error("[user.js] 加载用户数据失败:", error);
       console.error("[user.js] 错误详情:", {
@@ -252,9 +245,9 @@ export const useUserStore = defineStore("user", () => {
   // 从后端API加载最近学习记录
   async function loadRecentLessons() {
     try {
-      console.log("[user.js] 开始从后端API加载最近学习记录");
+
       const response = await userApi.getRecentStudies(3);
-      console.log("[user.js] API查询完成，最近学习记录:", response);
+
 
       if (response && response.records) {
         recentLessons.value = response.records.map((record) => ({
@@ -272,7 +265,7 @@ export const useUserStore = defineStore("user", () => {
       console.error("从API加载最近学习失败:", error);
       try {
         // API失败时从本地数据库加载
-        console.log("[user.js] 从本地数据库加载最近学习记录");
+
         const allLessons = await db.lessons.toArray();
         const sortedLessons = allLessons
           .filter((lesson) => lesson.lastStudyTime != null)
@@ -297,9 +290,9 @@ export const useUserStore = defineStore("user", () => {
   // 从后端API加载学习热力图
   async function loadLearningHeatmap() {
     try {
-      console.log("[user.js] 开始从后端API加载学习热力图");
+
       const response = await userApi.getHeatmap(6); // 获取最近6个月的数据
-      console.log("[user.js] API查询完成，热力图数据:", response);
+
 
       if (response && response.data) {
         const heatmap = {};
@@ -314,7 +307,7 @@ export const useUserStore = defineStore("user", () => {
       console.error("从API加载学习热力图失败:", error);
       try {
         // API失败时从本地数据库加载
-        console.log("[user.js] 从本地数据库加载学习热力图");
+
         const allLessons = await db.lessons.toArray();
         const heatmap = {};
 
@@ -337,9 +330,9 @@ export const useUserStore = defineStore("user", () => {
   // 每日打卡
   async function checkIn() {
     try {
-      console.log("[user.js] 开始调用打卡API");
+
       const response = await userApi.checkIn();
-      console.log("[user.js] 打卡API返回:", response);
+
 
       if (response && response.success) {
         // 更新本地状态
